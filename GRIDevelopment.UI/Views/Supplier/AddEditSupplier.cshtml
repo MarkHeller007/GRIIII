@@ -1,0 +1,72 @@
+﻿@model GRIDevelopment.Contract.DTO.SupplierDTO
+
+@{
+    ViewData["Title"] = "AddEditSupplier";
+}
+
+
+
+
+                      
+            
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <div class="py-5" style="background-image: url('https://static.pingendo.com/cover-stripes.svg'); background-position:left center; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-lg-12 col-10">
+          @if(Model != null && Model.Id > 0)
+{
+    <h1>Edit Supplier</h1>
+} else
+{
+    <h1>Add Supplier</h1>
+}
+
+
+
+<div>
+    <a asp-action="Index">Go to List</a>
+</div>
+
+<hr />
+          <form asp-action="AddEditSupplier" class="text-left">
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SupplierName" for="form16">Supplier Name :</label> 
+                <input asp-for="SupplierName" type="text" class="form-control w-50" id="form16" > 
+                <span asp-validation-for="SupplierName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupAddress" for="form16">Supplier Address :</label> 
+                <input asp-for="SupAddress" type="text" class="form-control w-50" id="form16"  >
+                <span asp-validation-for="SupAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group"> 
+                <label asp-for="SupContact" for="form17">Supplier Contact Number :</label> 
+                <input asp-for="SupContact" type="text" class="form-control w-50" id="form17" > 
+                <span asp-validation-for="SupContact" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn mt-4 btn-outline-dark p-2">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

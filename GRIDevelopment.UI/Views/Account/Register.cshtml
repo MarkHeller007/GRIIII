@@ -1,0 +1,55 @@
+﻿@model GRIDevelopment.DAL.DomainModel.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+<html>
+
+
+<body>
+  <div class="py-5 d-flex">
+    <div class="container">
+      <div class="row d-flex">
+        <div class="p-5 col-md-12">
+          <h2 class="mb-3" contenteditable="true">Register</h2>
+          <form method="post">
+            <div class="form-group">
+              <label asp-for="UserName">User Name :</label>
+              <input asp-for="UserName" class="form-control" placeholder="Your User Name" required="required">
+              <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="Email">Email :</label>
+              <input asp-for="Email" type="email" class="form-control" required="required" placeholder="abc@dmail.com">
+              <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="Password">Password :</label>
+              <input asp-for="Password" type="password" class="form-control" placeholder="Choose a Strong Password" required="required">
+              <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="ConfirmPassword">Confirm Password :</label>
+              <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter Password" required="required">
+              <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn mt-4 btn-block btn-outline-dark p-2">
+              <b>Register</b>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container regtxt" >
+      <div class="row">
+        <div class="p-5 3 col-md-12 d-flex flex-column justify-content-center">
+          <h3 class="display-4 mb-3">Create Accounts For Your Customers</h3>
+          <p class="mb-4 lead">In order to browse this site, you nee to register your Customers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

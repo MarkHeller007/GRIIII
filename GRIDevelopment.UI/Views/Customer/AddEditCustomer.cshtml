@@ -1,0 +1,61 @@
+﻿@model GRIDevelopment.Contract.DTO.CustomerDTO
+
+@{
+    ViewData["Title"] = "AddEditCustomer";
+}
+
+<body>
+  <div class="py-5" style="background-image: url('https://static.pingendo.com/cover-stripes.svg'); background-position:left center; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-lg-12 col-10">
+
+          @if(Model != null && Model.Id > 0)
+{
+    <h1>Edit Customer</h1>
+} else
+{
+    <h1>Add Customer</h1>
+}
+
+
+
+<div>
+    <a asp-action="Index">Go to List</a>
+</div>
+
+<hr />
+          <form asp-action="AddEditCustomer" class="text-left">
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="customer_name" for="form16">Customer Name :</label> 
+                <input asp-for="customer_name" type="text" class="form-control w-50" id="form16" > 
+                <span asp-validation-for="customer_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="customer_address" for="form16">Customer Address :</label> 
+                <input asp-for="customer_address" type="text" class="form-control w-50" id="form16"  >
+                <span asp-validation-for="customer_address" class="text-danger"></span>
+            </div>
+            <div class="form-group"> 
+                <label asp-for="customer_contact" for="form17">Customer Contact Number :</label> 
+                <input asp-for="customer_contact" type="text" class="form-control w-50" id="form17" > 
+                <span asp-validation-for="customer_contact" class="text-danger"></span>
+            </div>
+            <div class="form-group"> 
+                <label asp-for="customer_email" for="form17">Customer Email :</label> 
+                <input asp-for="customer_email" type="text" class="form-control w-50" id="form17"> 
+                <span asp-validation-for="customer_email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn mt-4 btn-outline-dark p-2">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

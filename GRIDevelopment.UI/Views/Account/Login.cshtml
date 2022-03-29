@@ -1,0 +1,51 @@
+﻿@model GRIDevelopment.DAL.DomainModel.LoginModel
+@{
+        ViewData["Title"] = "Login";
+}
+
+
+<!DOCTYPE html>
+<html>
+
+
+
+<body >
+  <div class="py-5 text-center w-100 h-75" style="background-image: url('');background-size:cover;">
+    <div class="container">
+      <div class="row">
+        <div class="bg-white mx-auto p-5 text-center col-10 col-md-6">
+          <h1 class="mb-4">Log in</h1>
+          <form method="post">
+              <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="Enter email" id="form9"> 
+                <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            <div class="form-group mb-3">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" id="form10">
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+
+                <small class="form-text text-muted text-right">
+                <a href="#"> Forgot Password ?</a>
+              </small>
+              </div> 
+
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input asp-for="RememberMe" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                </div>
+                </div>
+              <button type="submit" class="btn mt-4 btn-outline-dark">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+
+</html>

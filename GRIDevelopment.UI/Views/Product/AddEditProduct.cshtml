@@ -1,0 +1,108 @@
+﻿@model GRIDevelopment.Contract.DTO.ProductDTO
+
+@{
+    ViewData["Title"] = "AddEditProduct";
+}
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+
+
+<body >
+  <div class="py-5" style="background-image: url('https://static.pingendo.com/cover-stripes.svg'); background-position:left center; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-lg-12 col-10">
+          @if(Model != null && Model.Id > 0)
+{
+    <h1>EDIT PRODUCT</h1>
+} else
+{
+    <h1>ADD PRODUCT</h1>
+}
+<div>
+    <a asp-action="Index">Go to List</a>
+</div>
+
+<hr />
+          <form asp-action="AddEditProduct" class="text-left">
+            <div class="form-group">
+              <label asp-for="ProductName" for="form16">Product Name :</label>
+              <input asp-for="ProductName" type="text" class="form-control w-50 form-control-sm" id="form16"  >
+              <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="ProductDescription" for="form16">Product Description :</label>
+             <input asp-for="ProductDescription" type="text" class="form-control w-50 form-control-sm" id="form16"  >
+              <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="Application" for="form17">Application :</label>
+              <select asp-for="Application" class="form-control w-50 form-control-sm" >
+                <option value="">--Select--</option>
+                <option value="Irrigation">Irrigation</option>
+                <option value="Raw Crop">Raw Crop</option>
+                <option value="Loaders">Loaders</option>
+                <option value="Mining">Mining</option>
+                <option value="Trailers">Trailers</option>
+                <option value="Graders">Graders</option>
+                <option value="Implement">Implement</option>
+                <option value="Tractors/Harvesters">Tractors/Harvesters</option>
+                <option value="Escavator">Escavators</option>
+                <option value="TeleHandlers">TeleHandlers</option>
+                <option value="Compactors">Compactors</option>
+                </select>
+              <span asp-validation-for="Application" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="RimSize" for="form17">Rim Size :</label>
+              <select asp-for="RimSize" class="form-control w-50 form-control-sm" >
+                <option value="">--Select--</option>
+                <option value="10">10</option>
+                <option value="10.00-20">10.00-20</option>
+                <option value="10.00 G12">10.00 G12</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+                <option value="16.5">16.5</option>
+                <option value="17.5">17.5</option>
+                <option value="18">18</option>
+                <option value="2.10-4">2.10-4</option>
+                <option value="2.50 C-4">2.50 C-4</option>
+                <option value="20">20</option>
+                <option value="24">24</option>
+                </select>
+              <span asp-validation-for="RimSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="TubeSize" for="form17">Tube Size :</label>
+              <select asp-for="TubeSize" class="form-control w-50 form-control-sm" >
+                <option value="">--Select--</option>
+                <option value="10-16.5">10-16.5</option>
+                <option value="11.00-16">11.00-16</option>
+                <option value="11L-15">11L-15</option>
+                <option value="20.8-38">20.8-38</option>
+                <option>400/60-15.5</option>
+                </select>
+              <span asp-validation-for="TubeSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label asp-for="Price" for="form16">Price :</label>
+              <input asp-for="Price" type="text" class="form-control w-50 form-control-sm" id="form16"  >
+              <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn mt-4 btn-outline-dark p-2">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

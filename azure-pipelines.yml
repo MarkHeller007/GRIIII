@@ -16,6 +16,44 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+- task: UseDotNet@2
+  inputs:
+    version: '5.0.x'
+    includePreviewVersions: true # Required for preview versions
+
+- task: UseDotNet@2
+  inputs:
+    version: '3.0.x'
+    packageType: runtime
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)' # Update this to match your need
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+    feedsToUse: config
+    nugetConfigPath: NuGet.config    # Relative to root of the repository
+    externalFeedCredentials: <Name of the NuGet service connection>
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+  displayName: 'dotnet build $(buildConfiguration)'
+
+
 
 - task: NuGetCommand@2
   inputs:
@@ -32,3 +70,88 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+# do this after other tasks such as building
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+# do this after your tests have run
+- script: dotnet test <test-project> --logger trx
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    publishTestResults: true
+    projects: '**/test-library/*.csproj' # update with your test project directory
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    publishTestResults: true
+    projects: '**/test-library/*.csproj' # update with your test project directory
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+# this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'myWebsiteName'
+
+- script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
+- task: NuGetAuthenticate@0
+
+  inputs:
+    nuGetServiceConnections: '<Name of the NuGet service connection>'
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: '<Name of the NuGet service connection>'
+    versioningScheme: byEnvVar
+    versionEnvVar: version
+
+    # ...
+# do this after you've built your app, near the end of your pipeline in most cases
+# for example, you do this before you deploy to an Azure web app on Windows
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
